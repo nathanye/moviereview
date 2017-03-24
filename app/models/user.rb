@@ -13,11 +13,11 @@ class User < ApplicationRecord
     participated_movies.include?(movie)
   end
 
-  def join!(movie)
+  def favorite!(movie)
     participated_movies << movie
   end
 
-  def quit!(movie)
+  def dislike!(movie)
     participated_movies.delete(movie)
   end
 
