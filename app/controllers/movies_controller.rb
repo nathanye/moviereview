@@ -43,6 +43,33 @@ class MoviesController < ApplicationController
     redirect_to movies_path, alert: "删除成功"
   end
 
+  def join
+    @movie = Movie.find(params[:id])
+
+    if !current_user.is_member_of?(@movie)
+      current_user.join!(@movie)
+      flash[:notice] = "加入成功！"
+    else
+      flash[:warning] = "你已经加入了，不用重新加入！"
+    end
+
+    redirect_to movie_path(@movie)
+  end
+
+  def quit
+    @movie = Movie.find(params[:id])
+
+    if current_user.is_member_of?(@movie)
+      current_user.quit!(@movie)
+      flash[:alert] = "已成功退出！"
+    else
+      flash[:warning] = "你都没有加入，怎么退出？"
+    end
+
+    redirect_to movie_path(@movie)
+  end
+
+
   private
 
   def find_movie_and_check_permission
