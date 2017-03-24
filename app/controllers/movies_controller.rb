@@ -44,27 +44,27 @@ class MoviesController < ApplicationController
     redirect_to movies_path, alert: "删除成功"
   end
 
-  def join
+  def favorite
     @movie = Movie.find(params[:id])
 
     if !current_user.is_member_of?(@movie)
-      current_user.join!(@movie)
-      flash[:notice] = "加入成功！"
+      current_user.favorite!(@movie)
+      flash[:notice] = "收藏成功！"
     else
-      flash[:warning] = "你已经加入了，不用重新加入！"
+      flash[:warning] = "已经收藏，不能重复收藏！"
     end
 
     redirect_to movie_path(@movie)
   end
 
-  def quit
+  def dislike
     @movie = Movie.find(params[:id])
 
     if current_user.is_member_of?(@movie)
-      current_user.quit!(@movie)
-      flash[:alert] = "已成功退出！"
+      current_user.dislike!(@movie)
+      flash[:alert] = "取消收藏成功！"
     else
-      flash[:warning] = "你都没有加入，怎么退出？"
+      flash[:warning] = "还没收藏，怎么取消？"
     end
 
     redirect_to movie_path(@movie)
