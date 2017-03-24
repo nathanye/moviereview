@@ -1,4 +1,7 @@
 class Review < ApplicationRecord
   belongs_to :user
-  bolongs_to :movie
+  belongs_to :movie
+
+  validates :content, presence: true
+
 end
